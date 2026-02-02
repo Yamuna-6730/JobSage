@@ -1,20 +1,28 @@
 export const API_URL = "http://localhost:8000";
 
 export interface Job {
-    title: string;
+    job_title: string;
     company: string;
     location: string;
-    link: string;
-    source: string;
-    work_mode?: string; // Remote, Hybrid, Onsite
-    match_score?: number;
-    match_reasoning?: string;
+    source_url: string;
+    work_mode?: string;
     salary_or_stipend?: string;
+    experience_required?: string;
+    skills_required?: string[];
+    education?: string;
+    eligibility?: string;
+    summary?: string;
+    job_description?: string;
+    responsibilities?: string[];
+    requirements?: string[];
 }
 
 export interface ChatResponse {
     response: string;
-    structured_jobs: Job[];
+    structured_data?: {
+        jobs: Job[];
+    };
+    final_answer?: string;
 }
 
 export async function sendQuery(query: string): Promise<ChatResponse> {

@@ -27,6 +27,7 @@ export default function ChatInterface({
 
     const [query, setQuery] = useState("");
     const [mode, setMode] = useState<"remote" | "pro">("remote");
+    const [jobResults, setJobResults] = useState<Job[]>([]);
 
     const [messages, setMessages] = useState<Message[]>([
         {
@@ -40,62 +41,120 @@ export default function ChatInterface({
     const [hasUserInteracted, setHasUserInteracted] = useState(false);
     const bottomRef = useRef<HTMLDivElement>(null);
 
-    const dummyJobs = [
+    const dummyJobs: Job[] = [
         {
-            title: "Frontend Developer Intern",
+            job_title: "AI/ML Intern (LLMs & Agent Systems)",
+            company: "Big AIR Lab",
+            location: "Bangalore, India",
+            work_mode: "Onsite",
+            experience_required: "Entry level",
+            skills_required: [
+                "Machine Learning",
+                "Deep Learning",
+                "LLM fundamentals",
+                "Python",
+                "PyTorch",
+                "NumPy",
+                "Pandas",
+                "Git/GitHub",
+                "Hugging Face Transformers",
+                "RAG systems",
+                "LangChain",
+                "LangGraph",
+                "Docker",
+                "PostgreSQL",
+                "MongoDB"
+            ],
+            education: "Bachelor's in Computer Science or related field",
+            salary_or_stipend: "₹100,000.00/yr - ₹150,000.00/yr",
+            summary: "Big AIR Lab is seeking an AI/ML Intern for a 6-month on-site position in Bangalore, India. The intern will work on projects involving LLMs, retrieval systems, and agentic reasoning, contributing to experiments, data preparation, model evaluation, and prototype development within an AI/ML research-driven team focused on building intelligent AI Agents and RAG-based systems.",
+            responsibilities: [
+                "Assist in building and evaluating LLM- and agent-based pipelines (RAG, reasoning, tool use, etc.).",
+                "Conduct small-scale experiments and contribute to prompt design and prompt evaluation.",
+                "Help integrate LLMs with APIs, databases, and internal tools.",
+                "Explore and document recent AI agent frameworks and LLM techniques.",
+                "Collaborate with backend engineers to test and deploy prototypes."
+            ],
+            requirements: [
+                "Strong foundations in Machine Learning and Deep Learning concepts.",
+                "Good understanding of LLM fundamentals - tokenization, embeddings, attention, context, etc.",
+                "Some exposure to Prompt Engineering and reasoning patterns like Chain of Thought or ReAct.",
+                "Experience in Python and libraries like PyTorch, NumPy, Pandas.",
+                "Familiarity with Git/GitHub for version control.",
+                "Curiosity and ability to learn quickly in a research-focused environment."
+            ],
+            job_description: "IAI Solution Pvt Ltd operates at the edge of applied AI where foundational research meets real-world deployment. We craft intelligent systems that think in teams, adapt with context, and deliver actionable insight across domains. We're currently seeking passionate and skilled AI/ML Interns who are eager to contribute to real-world AI development, have hands-on experience with model fine-tuning, and are adept in prompt engineering. If you're ready to work on impactful projects and expand your expertise in AI, we'd love to hear from you.\n\nPosition Summary: We're an AI/ML research-driven team focused on building intelligent AI Agents and RAG-based systems for real-world applications in finance, business, and personal assistance. Our work combines applied research and fast-paced product development to create powerful, modular AI systems that think, reason, and act. As an AI/ML Intern, you'll work closely with our core AI/ML team on projects involving LLMs, retrieval systems, and agentic reasoning.",
+            source_url: "https://www.linkedin.com/jobs/view/4349464576/"
+        },
+        {
+            job_title: "Full Stack Software Developer (.Net)",
+            company: "NASDAQ",
+            location: "Bengaluru, Karnataka",
+            work_mode: "Hybrid",
+            experience_required: "3-5 years of software development experience",
+            skills_required: [
+                "C#.Net",
+                "ASP.Net",
+                "MSSQL",
+                "Postgres",
+                "JavaScript",
+                "Vue",
+                "Angular",
+                "React",
+                "Microservices architecture",
+                "Git",
+                "NUnit testing",
+                "HTML5",
+                "CSS3",
+                "AWS"
+            ],
+            education: "Bachelor/Master in Computer Science",
+            salary_or_stipend: "₹8-12 LPA",
+            summary: "Nasdaq Technology is looking for a passionate .Net Developer to join their Bangalore technology center. This role involves building, developing, and implementing rich internet application software for Nasdaq Analytics products, playing a key role in delivering complex technical systems within the FinTech industry. As a Senior Software Developer, you will be responsible for driving the implementation of central initiatives across the Nasdaq Analytics.",
+            responsibilities: [
+                "Build, develop, fix and implement rich internet application software for Nasdaq Analytics product.",
+                "Participate in technical develop reviews, functional specification reviews, develop project estimates, schedules, test plans, and code reviews.",
+                "Proactively identify and resolve potential problems/issues including authoring of technical specifications.",
+                "Conduct performance testing, review results, identify bottlenecks, and profile code"
+            ],
+            requirements: [
+                "At least 3-5 years of software development experience",
+                "Expertise in writing server side code using C#.Net, ASP.Net",
+                "Expertise understanding of MSSQL/Postgres database, database concepts and should be able to write complicated database queries",
+                "Should have worked on writing client-side code using JavaScript, ideally including experience with Vue, Angular or React.",
+                "Understanding of Microservices architecture, Parallel programming is a plus",
+                "Knack of adhering to the best develop practices",
+                "Proficient understanding of code versioning tools like Git",
+                "Experience in NUnit testing"
+            ],
+            job_description: "Nasdaq is continuously revolutionizing markets and undergoing transformations while we adopt new technologies to develop innovative solutions, constantly aiming to rewrite tomorrow. As a Senior Software Developer, you will play a key role in the delivery of complex technical systems of varying sizes to new and existing customers and will be part of discovering new technologies within the FinTech industry.\n\nYou will work with a group of enthusiastic and experienced team members, collaborating with cross functional teams, including designers, product managers and other specialists. Besides working closely with your colleagues in Bangalore, you will also work closely with Nasdaq teams in other countries.\n\nNasdaq is a vibrant and entrepreneurial company where everyone is encouraged to take initiative, challenge status quo, and take intelligent risks. We want everyone to feel welcome and bring their authentic self to work.",
+            source_url: "https://in.indeed.com/viewjob?jk=1bcada9602f35c43"
+        },
+        {
+            job_title: "Frontend Developer Intern",
             company: "TechNova Solutions",
             location: "Hyderabad, India",
             salary_or_stipend: "₹20,000 / month",
-            source: "LinkedIn",
-            link: "#",
-            match_score: 87,
-            match_reasoning:
-            "Matches your React and Tailwind experience.",
-        },
-        {
-            title: "Remote React Intern",
-            company: "PixelCraft",
-            location: "Remote",
-            salary_or_stipend: "₹25,000 / month",
-            source: "Indeed",
-            link: "#",
-            match_score: 82,
-            match_reasoning:
-            "Remote-friendly role with strong frontend focus.",
-        },
-        {
-            title: "Junior Frontend Engineer",
-            company: "CodeNest",
-            location: "Bangalore, India",
-            salary_or_stipend: "₹6 LPA",
-            source: "Company Site",
-            link: "#",
-            match_score: 79,
-            match_reasoning:
-            "Good match for early-career frontend developers.",
-        },
-        {
-            title: "UI Engineer Intern",
-            company: "Designify",
-            location: "Remote",
-            salary_or_stipend: "₹18,000 / month",
-            source: "LinkedIn",
-            link: "#",
-            match_score: 75,
-            match_reasoning:
-            "UI-heavy role with design-system exposure.",
-        },
-        {
-            title: "Frontend Developer",
-            company: "StartupX",
-            location: "Pune, India",
-            salary_or_stipend: "₹8 LPA",
-            source: "AngelList",
-            link: "#",
-            match_score: 73,
-            match_reasoning:
-            "Fast-paced startup role, React focused.",
-        },
+            source_url: "https://www.linkedin.com/jobs/view/sample1",
+            work_mode: "Hybrid",
+            experience_required: "0-1 years",
+            skills_required: ["React", "JavaScript", "TypeScript", "Tailwind CSS", "Git"],
+            education: "Bachelor's in Computer Science (pursuing or completed)",
+            summary: "Exciting opportunity for a frontend developer to work with modern React technologies and build user-centric applications in a collaborative team environment.",
+            responsibilities: [
+                "Develop and maintain responsive web applications using React",
+                "Collaborate with design team to implement UI/UX designs",
+                "Write clean, maintainable code following best practices",
+                "Participate in code reviews and team meetings"
+            ],
+            requirements: [
+                "Strong knowledge of React and JavaScript",
+                "Understanding of responsive design principles",
+                "Familiarity with version control (Git)",
+                "Good communication skills"
+            ],
+            job_description: "Join our dynamic team as a Frontend Developer Intern and gain hands-on experience building modern web applications. You'll work alongside experienced developers on real-world projects while learning industry best practices."
+        }
     ]
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -116,8 +175,13 @@ export default function ChatInterface({
             const data = await sendQuery(userMsg.content);
             setMessages((prev) => [
                 ...prev,
-                { role: "assistant", content: data.response },
+                { role: "assistant", content: data.response || data.final_answer || "Here are the results." },
             ]);
+            
+            // Update job results if backend returns jobs
+            if (data.structured_data?.jobs && data.structured_data.jobs.length > 0) {
+                setJobResults(data.structured_data.jobs);
+            }
         } catch {
             setMessages((prev) => [
                 ...prev,
@@ -250,40 +314,51 @@ export default function ChatInterface({
 
                 {/* JobCard*/}
                 {hasUserInteracted && (
-                <div className="mt-6 flex items-center gap-3">
+                <div className="mt-6 flex items-center gap-3 w-full max-w-[1400px] mx-auto">
 
                     {/* Left Arrow */}
                     <button
-                    onClick={() =>
-                        jobsRef.current?.scrollBy({ left: -450, behavior: "smooth" })
-                    }
-                    className="w-9 h-9 rounded-full bg-black text-[#B9FF66]
-                        flex items-center justify-center shadow-md
-                        hover:scale-110 transition"
+                    onClick={() => {
+                        const container = jobsRef.current;
+                        if (container) {
+                            // Scroll by 3 cards worth: 3 * (400px card width + 20px gap) = 1260px
+                            container.scrollBy({ left: -1260, behavior: "smooth" });
+                        }
+                    }}
+                    className="w-10 h-10 rounded-full bg-black text-[#B9FF66]
+                        flex items-center justify-center shadow-md flex-shrink-0
+                        hover:scale-110 transition border-2 border-black"
                     >
                     ‹
                     </button>
 
-                    {/* Job Cards */}
-                    <div
-                    ref={jobsRef}
-                    className="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar"
-                    >
-                    {dummyJobs.map((job, index) => (
-                        <div key={index} className="w-[420px] flex-shrink-0">
-                        <JobCard job={job} />
+                    {/* Job Cards Container */}
+                    <div className="flex-1 overflow-hidden">
+                        <div
+                        ref={jobsRef}
+                        className="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar"
+                        >
+                        {/* Display backend jobs if available, otherwise show dummy jobs */}
+                        {(jobResults.length > 0 ? jobResults : dummyJobs).map((job, index) => (
+                            <div key={index} className="w-[400px] flex-shrink-0">
+                            <JobCard job={job} />
+                            </div>
+                        ))}
                         </div>
-                    ))}
                     </div>
 
                     {/* Right Arrow */}
                     <button
-                    onClick={() =>
-                        jobsRef.current?.scrollBy({ left: 450, behavior: "smooth" })
-                    }
-                    className="w-9 h-9 rounded-full bg-black text-[#B9FF66]
-                        flex items-center justify-center shadow-md
-                        hover:scale-110 transition"
+                    onClick={() => {
+                        const container = jobsRef.current;
+                        if (container) {
+                            // Scroll by 3 cards worth: 3 * (400px card width + 20px gap) = 1260px
+                            container.scrollBy({ left: 1260, behavior: "smooth" });
+                        }
+                    }}
+                    className="w-10 h-10 rounded-full bg-black text-[#B9FF66]
+                        flex items-center justify-center shadow-md flex-shrink-0
+                        hover:scale-110 transition border-2 border-black"
                     >
                     ›
                     </button>
